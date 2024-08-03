@@ -20,7 +20,7 @@ const styles = {
     alignItems: "flex-start",
     marginTop: "100px",
     padding: "30px 0",
-    overflow: "hidden"
+    overflow: "auto"
   }
 } as const;
 

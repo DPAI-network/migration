@@ -9,7 +9,7 @@ import treeRaw from "../../../tree.json";
 import DPAIAirdrop from "../../../data/abi/DPAIAirdrop.json";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import { Contract } from "ethers";
-import { QuestionCircleOutlined,   } from "@ant-design/icons";
+import { QuestionCircleOutlined, } from "@ant-design/icons";
 
 const AIRDROP_CONTRACT = "0x54fc5811e34786d738b84ed05587a0088d6710c8";
 
@@ -41,20 +41,18 @@ const ClaimAirdrop: FC = (): ReactElement => {
 
   const handleClaimAirdrop = async (event: MouseEvent<HTMLButtonElement>): Promise<void> => {
     event.preventDefault();
-    console.log(1)
     const walletFound = wallets.find(item => item.wallet.toLowerCase() == airdropAddress.toLowerCase())
     if (!walletFound) {
       messageApi.error(`The wallet is not found in the list`);
       return;
     }
-    console.log(2)
     //@ts-expect-error json is correct
     const tree = StandardMerkleTree.load(treeRaw);
 
     for (const [i, v] of tree.entries()) {
       if (v[0] === airdropAddress.toLowerCase()) {
         // (3)
-        console.log(3, v)
+        console.log("tree", v)
         const proof = tree.getProof(i);
         console.log("proof", proof)
         try {
@@ -90,18 +88,19 @@ const ClaimAirdrop: FC = (): ReactElement => {
       {contextHolder}
       <div style={{ width: "100%", minWidth: "250px" }}>
         <h3 style={{ color: "#FFF" }}>Claiming the airdrop  <Button type="primary" shape="circle" icon={<QuestionCircleOutlined />} size="large" onClick={showModal} /></h3>
-        <div style={{ display: "inline-flex", gap: "10px", width: "100%" }}>
-          <Input
-            allowClear
-            value={airdropAddress}
-            onChange={handleAddressChange}
-            type="textarea"
-            placeholder="Input address for the airdrop"
-            style={{ width: "100%", height: "80%", marginBlock: "auto", minWidth: "250px", marginTop: "16px" }}
-          />
-          <Button type="primary" shape="round" style={styles.buttonSign} onClick={handleClaimAirdrop} loading={loading}>
-            Claim airdrop
-          </Button>
+        <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+          <div style={{ width: "100%"}} >
+            <Input
+              allowClear
+              value={airdropAddress}
+              onChange={handleAddressChange}
+              type="textarea"
+              placeholder="Input address for the airdrop"
+              style={{ width: "100%", height: "32px", marginBlock: "auto", minWidth: "250px", marginTop: "16px" }}
+            /></div><div>
+            <Button type="primary" shape="round" style={styles.buttonSign} onClick={handleClaimAirdrop} loading={loading}>
+              Claim airdrop
+            </Button></div>
         </div>
         <a href="/SCALE.csv" style={{ color: "#FFF" }}>Download airdrop addresses list</a>
       </div>

@@ -7,7 +7,7 @@ import GenericERC20 from "../../../data/abi/GenericERC20.json";
 import { useContract } from "hooks";
 import { Contract } from "ethers";
 import { formatUnits, parseEther } from "ethers/lib/utils";
-import { QuestionCircleOutlined  } from "@ant-design/icons";
+import { QuestionCircleOutlined } from "@ant-design/icons";
 
 const TOKEN_CONTRACT = "0x3C2993B831528EC4db4e334D5c2d1914491E38B4"
 // const WALLET_CONTRACT = "0xf7cc8Fb6a49Cf34914BE6ea3653eB87EF11D5B51"
@@ -47,11 +47,11 @@ const ExchangeTokens: React.FC = () => {
 
     const showModal = () => {
         setIsModalOpen(true);
-      };
-    
-      const handleCloseModal = () => {
+    };
+
+    const handleCloseModal = () => {
         setIsModalOpen(false);
-      };
+    };
 
 
     useEffect(() => {
@@ -60,7 +60,6 @@ const ExchangeTokens: React.FC = () => {
             setLoading(true);
             try {
                 const balance = await oldContract!.balanceOf(account)
-                console.log('Got balance', balance.toString(), formatUnits(balance.toString()))
                 setTokenBalance(Number(formatUnits(balance.toString())));
             } catch (error) {
                 console.log('cannot load exchange balance from ', OLD_CONTRACT)
@@ -72,7 +71,6 @@ const ExchangeTokens: React.FC = () => {
                 console.log('cannot set allowance', OLD_CONTRACT);
                 console.log((error as any).message)
             }
-            console.log('update', allowance, tokenBalance)
             setLoading(false);
             id = setTimeout(refreshBalance, 60000);
         };
@@ -130,10 +128,9 @@ const ExchangeTokens: React.FC = () => {
         if (!amount) {
             messageApi.error("The amount is missing. Please double check your input.");
             return;
-        } 
+        }
         try {
             /* const { success, data } =  */
-            console.log('exchange', parseEther(amount.toString()).toString())
             await contract!.exchange(parseEther(amount.toString()))
             // if (success) {
             messageApi.success(
@@ -152,7 +149,7 @@ const ExchangeTokens: React.FC = () => {
             {contextHolder}
             <div style={{ width: "100%", minWidth: "250px" }}>
                 <h3 style={{ color: "#FFF" }}>Exchange the SCALE to the DPAI 5:1<Button type="primary" shape="circle" icon={<QuestionCircleOutlined />} size="large" onClick={showModal} /></h3>
-                <div style={{ display: "inline-flex", gap: "10px", width: "100%" }}>
+                <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
 
                     <InputNumber
                         value={amount}
@@ -169,7 +166,8 @@ const ExchangeTokens: React.FC = () => {
                                 Approve tokens
                             </Button>
 
-                        } else {
+                        }
+                        {(amount == undefined || allowance! >= amount!) &&
 
                             <Button type="primary" shape="round" onClick={handleExchange} loading={loading}
                                 disabled={amount == undefined || (amount! > 0 && allowance! < amount!)}>
@@ -182,10 +180,10 @@ const ExchangeTokens: React.FC = () => {
                 </div>
             </div>
             <Modal title="Exchange tokens" open={isModalOpen} onCancel={handleCloseModal} footer={null}>
-        <p>If you currently have SCALE tokens that you want to exchange for DPAI, you can do so here.</p>
-        <p>Just enter the desired number of tokens and they will be exchanged at the rate of 5 SCALE - 1 DPAI. This ratio is calculated based on the SCALE rate as of July 10 and the average SCALE rate over the last two weeks.</p>
-        <p>The tokens will be exchanged automatically and sent to your wallet.</p>
-      </Modal>
+                <p>If you currently have SCALE tokens that you want to exchange for DPAI, you can do so here.</p>
+                <p>Just enter the desired number of tokens and they will be exchanged at the rate of 5 SCALE - 1 DPAI. This ratio is calculated based on the SCALE rate as of July 10 and the average SCALE rate over the last two weeks.</p>
+                <p>The tokens will be exchanged automatically and sent to your wallet.</p>
+            </Modal>
         </>
     );
 };
