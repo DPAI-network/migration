@@ -1,5 +1,5 @@
-import { useWeb3React } from "@web3-react/core";
-import { Divider, Typography } from "antd";
+// import { useWeb3React } from "@web3-react/core";
+import { /* Divider, */ Typography } from "antd";
 const { Title } = Typography;
 
 /* import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
@@ -7,8 +7,8 @@ import tree from  "../../tree.json";
 import wallets from "../../wallets.json"; */
 import { useWindowSize } from "hooks";
 
-import { ClaimAirdrop, Status, TransferEth } from "./components";
-import ExchangeTokens from "./components/ExchangeTokens";
+import {/*  ClaimAirdrop, Status, TransferEth,  */ Closed } from "./components";
+// import ExchangeTokens from "./components/ExchangeTokens";
 
 const styles = {
   container: {
@@ -39,7 +39,7 @@ type DisplayPaneProps = {
 };
 
 const DisplayPane: React.FC<DisplayPaneProps> = ({ isDarkMode }) => {
-  const { isActivating, isActive } = useWeb3React();
+  // const { isActivating, isActive } = useWeb3React();
   const { isTablet } = useWindowSize();
 
   return (
@@ -52,7 +52,8 @@ const DisplayPane: React.FC<DisplayPaneProps> = ({ isDarkMode }) => {
     >
       <Title>DPAI airdrop & migration tool</Title>
       <div style={styles.content}>
-        <Status isActivating={isActivating} isActive={isActive} />
+        <Closed />
+      {/*   <Status isActivating={isActivating} isActive={isActive} />
 
         {isActive && (
           <>
@@ -63,7 +64,7 @@ const DisplayPane: React.FC<DisplayPaneProps> = ({ isDarkMode }) => {
               <TransferEth />
             </div>
           </>
-        )}
+        )} */}
       </div>
     </div>
   );
